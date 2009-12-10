@@ -10,6 +10,14 @@ from plone.tiles.interfaces import ITileType, ITileDataManager
 
 from plone.tiles.data import decode
 
+#Application tile imports
+import z3c.form.form
+import z3c.form.button
+from plone.autoform.form import AutoExtensibleForm
+from plone.directives import form
+from zope import schema
+from plone.z3cform.layout import wrap_form
+
 LOGGER = logging.getLogger('plone.tiles')
 
 class Tile(BrowserView):
@@ -58,3 +66,50 @@ class PersistentTile(Tile):
             reader = getMultiAdapter((self.context, self,), ITileDataManager)
             self.__cached_data = reader.get()
         return self.__cached_data
+
+class ApplicationTile(PersistentTile):
+    
+    def __call__(self):
+        return
+
+class ApplicationTileSchema(form.Schema):
+    name = schema.TextLine(title=u"Name")
+
+class ApplicationTileAddForm(AutoExtensibleForm, form.AddForm):
+    """View class for application tile adding
+    TODO If there is no form schema, do not show the form
+    """
+    
+    schema = ApplicationTileSchema
+    autoGroups = True
+    ignoreContext = True # don't use context to get widget data
+    
+    
+    @z3c.form.button.buttonAndHandler((u'Save'), name='save')
+    def handleApply(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        print data
+
+    #Add form, this should close the layer with the iFrame that contains this form
+    @z3c.form.button.buttonAndHandler((u'Cancel'), name='cancel')
+    def handleCancel(self, action):
+        #IStatusMessage(self.request).addStatusMessage((u"Edit cancelled"), "info")
+        #self.request.response.redirect(self.context.absolute_url())
+    
+        #"window.parent.jQuery.deco.dialog.close" #How to close when the cancel button is hit
+        response = self.request.response
+        return ViewPageTemplateFile('cancel.pt')
+        #print "cancel button pressed"
+  
+ApplicationTileAddView = wrap_form(ApplicationTileAddForm)
+      
+class ApplicationTileEditForm(AutoExtensibleForm, form.EditForm):
+    
+    schema = ApplicationTileSchema
+    autoGroups = True
+    ignoreContext = True # don't use context to get widget data
+
+ApplicationTileEditView = wrap_form(ApplicationTileEditForm)

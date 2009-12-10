@@ -1,0 +1,22 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n" 
+      >
+<head>
+    <div tal:replace="structure provider:plone.htmlhead" />
+</head>
+<body bgcolor="white">
+
+<div id="region-content">
+      <div id="content">
+            <div class="row">
+                  <div class="cell width-full position-0">
+                  <span tal:replace="structure view/contents" />
+                  </div>
+            </div>
+      </div>
+</div>
+
+</body>
+</html>

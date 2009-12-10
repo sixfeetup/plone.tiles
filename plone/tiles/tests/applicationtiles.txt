@@ -1,0 +1,58 @@
+Application Tiles
+=================
+
+Application tiles are a kind of tile that have more complex settings and or functionality.
+Examples are a movie tile(youtube f/e), a poll, an image and others.
+
+Application tiles have an add and and edit form for their respective settings.
+This is what sets them apart from other tiles(with the difference in provided content).
+
+Application tiles have an interface IApplicationTile and two forms,
+ApplicationTileAddform and ApplicationTileEditForm.
+
+
+First we'll create a browser and login as manager.
+
+    >>> from Products.Five.testbrowser import Browser
+    >>> browser = Browser()
+    >>> browser.handleErrors = False
+    >>> self.app.acl_users.userFolderAddUser('root', 'secret', ['Manager'], [])
+    >>> browser.addHeader('Authorization', 'Basic root:secret')
+
+Let's create an application tile and see if the required fields are working
+
+    >>> browser.open('http://nohost/plone/@@applicationtile-add-form')
+    >>> browser.getControl(name='form.buttons.save').click()
+    >>> 'Some fields were not filled.' in browser.contents
+    True
+
+Let's create an application tile and fill the required fields, then submit
+
+    >>> browser.open('http://nohost/plone/@@applicationtile-add-form')
+    >>> browser.getControl(name='form.widgets.app_tiles').value = 'pony'
+    >>> browser.getControl(name='form.buttons.save').click()
+    >>> 'Application tile added.' in browser.contents
+    True
+    
+Let's open the edit form and see if it works with the entered data
+
+    >>> browser.open('http://nohost/plone/@@applicationtile-edit-form')
+    >>> browser.getControl(name='form.buttons.save').click()
+    >>> 'Editted succesfully.' in browser.contents
+    True
+
+Let's open the edit form and clear the fields to see if the required fields work
+
+    >>> browser.open('http://nohost/plone/@@applicationtile-edit-form')
+    >>> browser.getControl(name='form.widgets.app_tiles').value = ''
+    >>> browser.getControl(name='form.buttons.save').click()
+    >>> 'Editted succesfully.' in browser.contents
+    True
+
+Get the url of the application tile and see if it renders
+TODO finish this
+    
+    #>>> browser.open('http://nohost/plone/)
+    #>>> 'Pony' in browser.contents
+
+TODO Add two application tiles of the same kind and see if that works.
