@@ -1,3 +1,4 @@
+=================
 Application Tiles
 =================
 
@@ -19,19 +20,28 @@ First we'll create a browser and login as manager.
     >>> self.app.acl_users.userFolderAddUser('root', 'secret', ['Manager'], [])
     >>> browser.addHeader('Authorization', 'Basic root:secret')
 
+First lets see if the form shows as required
+
+    >>> browser.open('http://nohost/plone/@@applicationtile-add-form')
+    >>> 'Name' in browser.contents
+    True
+
+If the form is shown it should be a little from the left side of the screen    
+    >>> '<div class="cell width-full position-0">' in browser.contents
+
 Let's create an application tile and see if the required fields are working
 
     >>> browser.open('http://nohost/plone/@@applicationtile-add-form')
     >>> browser.getControl(name='form.buttons.save').click()
-    >>> 'Some fields were not filled.' in browser.contents
+    >>> 'Required input is missing.' in browser.contents
     True
-
-Let's create an application tile and fill the required fields, then submit
+    
+    Let's create an application tile and fill the required fields, then submit
 
     >>> browser.open('http://nohost/plone/@@applicationtile-add-form')
-    >>> browser.getControl(name='form.widgets.app_tiles').value = 'pony'
+    >>> browser.getControl(name='form.widgets.name').value = 'pony'
     >>> browser.getControl(name='form.buttons.save').click()
-    >>> 'Application tile added.' in browser.contents
+    >>> "saved succesfully!" in browser.contents
     True
     
 Let's open the edit form and see if it works with the entered data
@@ -44,7 +54,7 @@ Let's open the edit form and see if it works with the entered data
 Let's open the edit form and clear the fields to see if the required fields work
 
     >>> browser.open('http://nohost/plone/@@applicationtile-edit-form')
-    >>> browser.getControl(name='form.widgets.app_tiles').value = ''
+    >>> browser.getControl(name='form.widgets.name').value = ''
     >>> browser.getControl(name='form.buttons.save').click()
     >>> 'Editted succesfully.' in browser.contents
     True

@@ -18,6 +18,7 @@
         permission="zope.Public"
         template="formlayer.pt"
         />
+    
      <browser:page
         for="*"
         name="applicationtile-edit-form"
@@ -25,4 +26,13 @@
         permission="zope.Public"
         template="formlayer.pt"
         />
+     
+     <browser:page
+        for="*"
+        name="applicationtile-form-processed"
+        class=".tile.ApplicationTileFormProcessed"
+        permission="zope.Public"
+        template="formprocessed.pt"
+        />
+     
 </configure>

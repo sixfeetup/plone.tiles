@@ -5,8 +5,17 @@
       >
 <head>
     <div tal:replace="structure provider:plone.htmlhead" />
+    <script type="text/javascript">
+      (function($) {
+            $(document).ready(function (){
+                  $(".portalMessage.info").each(function (){
+                        alert("Custom inclusion code");
+                  })
+            })
+      })(jQuery)
+      </script>
 </head>
-<body bgcolor="white">
+<body>
 
 <div id="region-content">
       <div id="content">

@@ -12,11 +12,13 @@ from plone.tiles.data import decode
 
 #Application tile imports
 import z3c.form.form
-import z3c.form.button
+from z3c.form import button
 from plone.autoform.form import AutoExtensibleForm
 from plone.directives import form
 from zope import schema
 from plone.z3cform.layout import wrap_form
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
 
 LOGGER = logging.getLogger('plone.tiles')
 
@@ -79,31 +81,34 @@ class ApplicationTileAddForm(AutoExtensibleForm, form.AddForm):
     """View class for application tile adding
     TODO If there is no form schema, do not show the form
     """
-    
+
     schema = ApplicationTileSchema
     autoGroups = True
     ignoreContext = True # don't use context to get widget data
+    index = ViewPageTemplateFile('formlayer.pt')
     
     
-    @z3c.form.button.buttonAndHandler((u'Save'), name='save')
+    @button.buttonAndHandler((u'Save'), name='save')
     def handleApply(self, action):
         data, errors = self.extractData()
         if errors:
             self.status = self.formErrorsMessage
             return
-        print data
+        else:
+            self.status = "Saved"
 
     #Add form, this should close the layer with the iFrame that contains this form
     @z3c.form.button.buttonAndHandler((u'Cancel'), name='cancel')
     def handleCancel(self, action):
         #IStatusMessage(self.request).addStatusMessage((u"Edit cancelled"), "info")
         #self.request.response.redirect(self.context.absolute_url())
-    
+        print "kekjo"
         #"window.parent.jQuery.deco.dialog.close" #How to close when the cancel button is hit
-        response = self.request.response
-        return ViewPageTemplateFile('cancel.pt')
-        #print "cancel button pressed"
-  
+        print self.request.RESPONSE.redirect('@@applicationtile-form-processed')
+        return self.request.RESPONSE.redirect('@@applicationtile-form-processed')
+        
+        #return ViewPageTemplateFile('cancel.pt')
+      
 ApplicationTileAddView = wrap_form(ApplicationTileAddForm)
       
 class ApplicationTileEditForm(AutoExtensibleForm, form.EditForm):
@@ -111,5 +116,11 @@ class ApplicationTileEditForm(AutoExtensibleForm, form.EditForm):
     schema = ApplicationTileSchema
     autoGroups = True
     ignoreContext = True # don't use context to get widget data
-
+    
 ApplicationTileEditView = wrap_form(ApplicationTileEditForm)
+
+class ApplicationTileFormProcessed(BrowserView):
+    
+    def __call__(self):
+        print "klaar"
+        return

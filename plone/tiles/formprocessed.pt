@@ -1,0 +1,9 @@
+<html>
+<body>
+<script type="text/javascript">
+    window.onload = function (){
+        alert('ping');
+    }    
+</script>
+</body>
+</html>
