@@ -20,6 +20,7 @@ try:
 except ImportError:
     from zope.app.publisher.browser.viewmeta import page
 
+
 class ITileDirective(Interface):
     """Directive which registers a new type of tile
     """
@@ -109,9 +110,8 @@ def tile(_context, name, title=None, description=None, add_permission=None,
         if edit_permission is None:
             edit_permission = add_permission
 
-        type_ = TileType(
-            name, title, add_permission, edit_permission, delete_permission,
-            description, schema)
+        type_ = TileType(name, title, add_permission, edit_permission,
+                         delete_permission, description, schema)
 
         utility(_context, provides=ITileType, component=type_, name=name)
 

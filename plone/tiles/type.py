@@ -19,4 +19,4 @@ class TileType(object):
         self.schema = schema
 
     def __repr__(self):
-        return u"<TileType %s (%s)>" % (self.__name__, self.title, )
+        return u"<TileType %s (%s)>" % (self.__name__, self.title)

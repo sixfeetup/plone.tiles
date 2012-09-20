@@ -1,27 +1,16 @@
 from setuptools import setup, find_packages
 import os
 
-def get_git_version(abbrev=4): 
-    from subprocess import Popen, PIPE 
-    try: 
-        p = Popen(['git', 'rev-parse', 'HEAD'], 
-                  stdout=PIPE, stderr=PIPE) 
-        p.stderr.close() 
-        line = p.stdout.readlines()[0] 
-        return '-' + line.strip()[:abbrev] 
-    except: 
-        return '' 
- 
-version = '1.0a2' + get_git_version()
+version = '1.1'
 
 setup(name='plone.tiles',
       version=version,
       description="APIs for managing tiles",
-      long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("plone", "tiles", "tiles.txt")).read() + "\n" +
-                       open(os.path.join("plone", "tiles", "directives.txt")).read() + "\n" +
-                       open(os.path.join("plone", "tiles", "esi.txt")).read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+      long_description=open("README.rst").read() + "\n" +
+                       open(os.path.join("plone", "tiles", "tiles.rst")).read() + "\n" +
+                       open(os.path.join("plone", "tiles", "directives.rst")).read() + "\n" +
+                       open(os.path.join("plone", "tiles", "esi.rst")).read() + "\n" +
+                       open("CHANGELOG.rst").read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Framework :: Plone",
@@ -49,11 +38,9 @@ setup(name='plone.tiles',
           'ZODB3',
           'zope.app.publisher',
       ],
-      extras_require = {
-          'test' : [
-              'plone.testing [zca, z2]',
-              ]
-          },
+      extras_require={
+        'test': ['plone.testing [zca, z2]'],
+      },
       entry_points="""
       """,
       )
