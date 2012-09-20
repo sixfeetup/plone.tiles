@@ -99,6 +99,9 @@ To register the tile, use ZCML like this::
             add_permission="my.add.Permission"
             schema=".interfaces.IMyTileSchema"
 
+            edit_permission="my.edit.Permission"
+            delete_permission="my.delete.Permission"
+
             class=".mytile.MyTile"
             permission="zope.Public"
             for="*"
@@ -108,9 +111,12 @@ To register the tile, use ZCML like this::
     </configure>
 
 The first five attributes describe the tile by configuring an appropriate
-`ITileType` directive. The rest mimics the `<browser:page />` directive,
-so you can specify a `template` file and omit the `class`, or use both a
-`template` and `class`.
+`ITileType` directive. The second two permissions offer the opportunity to
+configure tiles to have separate permissions for editing and deleting. These
+are not required. If omitted, they will default to the provided
+`add_permission`. The rest mimics the `<browser:page />` directive, so you can
+specify a `template` file and omit the `class`, or use both a `template` and
+`class`.
 
 If you want to register a persistent tile with a custom schema, but a template
 only, you can do e.g.::
